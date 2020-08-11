@@ -1,5 +1,5 @@
 const grid = document.querySelector(".grid"); //QuerySelector vs getElementbyClassName and ID
-const start = document.getElementById("startButton");
+const startButton = document.getElementById("startButton");
 const scoreDisplay = document.getElementById("score");
 let squares = [];
 let currentSnake = [2, 1, 0];
@@ -9,6 +9,7 @@ let appleIndex = 0
 let score = 0
 let intervalTime = 1000
 let speed = 0.9
+let timerID= 0
 
 function createGrid() {
   //create 100s of these elements cause we need 100s of divs for snake
@@ -32,6 +33,37 @@ function createGrid() {
 createGrid();
 
 currentSnake.forEach((index) => squares[index].classList.add("snake"));
+
+//Start/ Restart Function
+
+function startGame(){
+
+    //restart game
+    //make all the variables to its original value
+    //remove the snake form the grid
+    currentSnake.forEach(index => squares[index].classList.remove('snake'))
+    //remove the apple
+    squares[appleIndex].classList.remove('apple')
+    clearInterval(timerID)
+    currentSnake = [2,1,0]
+    score=0
+
+    //readd new score to the browser
+    scoreDisplay.textContent = score // same as below from getting the score
+
+    direction =1
+    intervalTime = 1000
+    generateApples()
+    //re-add the class of sanke to our new currentSnake
+    currentSnake.forEach(index => squares[index].classList.add('snake'))
+
+    timerID = setInterval(move, intervalTime)
+
+    //start game value
+     timerID = setInterval(move, intervalTime); // 1000 the value should be in decreasing manner to increase the speed of snake
+
+
+}
 
 function move() {
 
@@ -89,11 +121,10 @@ function move() {
 
   squares[currentSnake[0]].classList.add("snake");
 }
-move();
+// move()
 
 
 
-let timerID = setInterval(move, intervalTime); // 1000 the value should be in decreasing manner to increase the speed of snake
 //generating random apples for snake
 
 function generateApples() {
@@ -129,4 +160,6 @@ function control(e) {
     direction = +width;
   }
 }
-document.addEventListener("keydown", control);
+document.addEventListener('keydown', control)
+
+startButton.addEventListener('click', startGame)
