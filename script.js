@@ -7,6 +7,8 @@ let direction = 1;
 const width = 10; // its not gonna change
 let appleIndex = 0
 let score = 0
+let intervalTime = 1000
+let speed = 0.9
 
 function createGrid() {
   //create 100s of these elements cause we need 100s of divs for snake
@@ -79,6 +81,9 @@ function move() {
       scoreDisplay.textContent = score
 
       //speed up out snake
+      clearInterval(timerID)
+      intervalTime = intervalTime * speed // decreasing the value of intervalTime
+      timerID = setInterval(move, intervalTime)
 
   }
 
@@ -86,7 +91,9 @@ function move() {
 }
 move();
 
-let timerID = setInterval(move, 1000);
+
+
+let timerID = setInterval(move, intervalTime); // 1000 the value should be in decreasing manner to increase the speed of snake
 //generating random apples for snake
 
 function generateApples() {
